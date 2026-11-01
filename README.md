@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Numbers First — numberfirst.pro
 
-## Getting Started
+Bilingual (English / Arabic) marketing site built around two solutions:
+**01 Accounting & Bookkeeping** and **02 Financial Planning & Advisory**.
 
-First, run the development server:
+Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · GSAP + ScrollTrigger + SplitText (`@gsap/react`) · Lucide.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # http://localhost:3000 (redirects to /en or /ar)
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | Page |
+| --- | --- |
+| `/[lang]` | Home: the two-solution choice, comparison, process, clients, sample teaser |
+| `/[lang]/accounting` | Services, ZATCA/VAT/Zakat/WPS, balance-sheet package selector, process |
+| `/[lang]/advisory` | Advisory services, six-industry explorer, sample report lightbox |
+| `/[lang]/enquire` | Three-step free-assessment request |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`proxy.ts` sends locale-less URLs to `/en` or `/ar` (saved `nf-lang` cookie first, then `Accept-Language`).
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+- **Copy:** `content/en.ts` is the source shape; `content/ar.ts` is typed against it, so a missing Arabic key fails the build.
+- **Contact details, client logos, sample pages:** `lib/site.ts`.
+- **Brand tokens:** `@theme` in `app/globals.css` (gold = accounting, teal = advisory).
+- **Motion:** `components/motion/MotionRoot.tsx` animates any element with `data-reveal`, `data-count` or `data-parallax`, so most sections stay Server Components. Hero entrances use `HeroIntro` (`data-split`, `data-intro`). Everything respects `prefers-reduced-motion`, and content is shown anyway if the script never starts.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Enquiry form
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+There's no backend, matching the previous site. The form assembles the request and the visitor sends it on WhatsApp or by email, or copies it.
+Links can pre-fill it: `?path=accounting|advisory`, `?plan=starter|standard|growth|premium`, `?industry=sports|realestate|fnb|hospitality|consultancy|creative`.
