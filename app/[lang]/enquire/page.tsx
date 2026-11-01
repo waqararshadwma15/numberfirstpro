@@ -7,16 +7,14 @@ import { site, waLink } from "@/lib/site";
 import { EnquiryForm } from "@/components/enquire/EnquiryForm";
 import { HeroIntro } from "@/components/motion/HeroIntro";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbs, graph, pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/enquire">): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const { meta } = getDictionary(lang).enquire;
-  return {
-    title: meta.title,
-    description: meta.description,
-    alternates: { canonical: `/${lang}/enquire`, languages: { en: "/en/enquire", ar: "/ar/enquire" } },
-  };
+  return pageMetadata(lang, "/enquire", meta.title, meta.description);
 }
 
 export default async function EnquirePage({ params }: PageProps<"/[lang]/enquire">) {
@@ -88,6 +86,7 @@ export default async function EnquirePage({ params }: PageProps<"/[lang]/enquire
           </Suspense>
         </div>
       </HeroIntro>
+      <JsonLd data={graph(breadcrumbs(lang, [{ name: t.label, path: "/enquire" }]))} />
     </section>
   );
 }

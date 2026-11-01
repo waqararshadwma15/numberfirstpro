@@ -17,22 +17,22 @@ const icons: Record<string, LucideIcon> = {
 
 type Props = { lang: Locale; t: Dict["advisory"]["industries"]; cta: string };
 
-/* Six sector tabs; the detail panel swaps with a short GSAP transition. */
+/* Six sector tabs; the detail panel swaps with a short GSAP transition.
+   All six panels are in the HTML (inactive ones hidden) so search and AI crawlers read every sector. */
 export function IndustryExplorer({ lang, t, cta }: Props) {
   const scope = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
-  const item = t.items[active];
-  const Icon = icons[item.key];
+  const activeKey = t.items[active].key;
 
   useGSAP(
     () => {
       if (!window.matchMedia(MOTION_OK).matches) return;
       gsap
         .timeline()
-        .fromTo("[data-panel-icon]", { scale: 0.6, rotate: -20, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.7, ease: "back.out(2)" })
-        .fromTo("[data-panel-in]", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.06, duration: 0.6, ease: "expo.out" }, 0.05);
+        .fromTo(`#panel-${activeKey} [data-panel-icon]`, { scale: 0.6, rotate: -20, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.7, ease: "back.out(2)" })
+        .fromTo(`#panel-${activeKey} [data-panel-in]`, { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.06, duration: 0.6, ease: "expo.out" }, 0.05);
     },
-    { scope, dependencies: [active], revertOnUpdate: false },
+    { scope, dependencies: [activeKey], revertOnUpdate: false },
   );
 
   const onKey = (e: React.KeyboardEvent, i: number) => {
@@ -76,7 +76,7 @@ export function IndustryExplorer({ lang, t, cta }: Props) {
                   role="tab"
                   type="button"
                   aria-selected={selected}
-                  aria-controls="industry-panel"
+                  aria-controls={`panel-${ind.key}`}
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActive(i)}
                   onKeyDown={(e) => onKey(e, i)}
@@ -93,44 +93,48 @@ export function IndustryExplorer({ lang, t, cta }: Props) {
             })}
           </div>
 
-          <div
-            id="industry-panel"
-            role="tabpanel"
-            aria-labelledby={`tab-${item.key}`}
-            data-reveal
-            className="relative flex min-h-[420px] flex-col overflow-hidden rounded-[28px] border border-line bg-ink p-8 sm:p-12"
-          >
-            <Icon
-              aria-hidden
-              strokeWidth={0.6}
-              className="pointer-events-none absolute -end-10 -bottom-10 size-72 text-teal/[0.07]"
-            />
-            <span data-panel-icon className="grid size-16 place-items-center rounded-2xl bg-teal text-on-teal">
-              <Icon size={30} aria-hidden />
-            </span>
-            <h3 data-panel-in className="mt-8 text-[clamp(36px,4.5vw,56px)]">
-              {item.name}
-            </h3>
-            <p data-panel-in className="mt-3 text-lg text-muted">
-              {item.summary}
-            </p>
-            <p data-panel-in className="mt-10 text-xs font-bold tracking-[0.18em] text-teal uppercase rtl:tracking-normal">
-              {t.focusLabel}
-            </p>
-            <ul className="mt-4 grid gap-3 sm:grid-cols-3">
-              {item.focus.map((f, i) => (
-                <li key={f} data-panel-in className="rounded-2xl border border-line bg-surface p-5">
-                  <span className="font-sans text-xs text-teal tabular-nums">0{i + 1}</span>
-                  <p className="mt-2 leading-snug">{f}</p>
-                </li>
-              ))}
-            </ul>
-            <div data-panel-in className="mt-auto pt-10">
-              <Link href={`/${lang}/enquire?path=advisory&industry=${item.key}`} className="btn btn-teal">
-                {cta}
-                <ArrowRight size={18} className="arrow" />
-              </Link>
-            </div>
+          <div data-reveal>
+            {t.items.map((item, i) => {
+              const Icon = icons[item.key];
+              return (
+                <div
+                  key={item.key}
+                  id={`panel-${item.key}`}
+                  role="tabpanel"
+                  aria-labelledby={`tab-${item.key}`}
+                  hidden={i !== active}
+                  className="relative flex min-h-[420px] flex-col overflow-hidden rounded-[28px] border border-line bg-ink p-8 sm:p-12 [&[hidden]]:hidden"
+                >
+                  <Icon aria-hidden strokeWidth={0.6} className="pointer-events-none absolute -end-10 -bottom-10 size-72 text-teal/[0.07]" />
+                  <span data-panel-icon className="grid size-16 place-items-center rounded-2xl bg-teal text-on-teal">
+                    <Icon size={30} aria-hidden />
+                  </span>
+                  <h3 data-panel-in className="mt-8 text-[clamp(36px,4.5vw,56px)]">
+                    {item.name}
+                  </h3>
+                  <p data-panel-in className="mt-3 text-lg text-muted">
+                    {item.summary}
+                  </p>
+                  <p data-panel-in className="mt-10 text-xs font-bold tracking-[0.18em] text-teal uppercase rtl:tracking-normal">
+                    {t.focusLabel}
+                  </p>
+                  <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+                    {item.focus.map((f, n) => (
+                      <li key={f} data-panel-in className="rounded-2xl border border-line bg-surface p-5">
+                        <span className="font-sans text-xs text-teal tabular-nums">0{n + 1}</span>
+                        <p className="mt-2 leading-snug">{f}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <div data-panel-in className="mt-auto pt-10">
+                    <Link href={`/${lang}/enquire?path=advisory&industry=${item.key}`} className="btn btn-teal">
+                      {cta}
+                      <ArrowRight size={18} className="arrow" />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { MotionRoot } from "@/components/motion/MotionRoot";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationGraph } from "@/lib/seo";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -42,25 +44,31 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
+/* Site-wide defaults; each page sets its own title, canonical, hreflang and Open Graph via pageMetadata(). */
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = getDictionary(lang);
   return {
     metadataBase: new URL(site.url),
+    applicationName: site.name,
     title: t.meta.siteTitle,
     description: t.meta.siteDescription,
-    alternates: { canonical: `/${lang}`, languages: { en: "/en", ar: "/ar" } },
-    openGraph: {
-      type: "website",
-      siteName: site.name,
-      title: t.meta.siteTitle,
-      description: t.meta.siteDescription,
-      url: `/${lang}`,
-      images: ["/assets/logo.jpg"],
-      locale: lang === "ar" ? "ar_SA" : "en_US",
+    authors: [{ name: site.name, url: site.url }],
+    creator: site.name,
+    publisher: site.name,
+    category: "Accounting and financial services",
+    formatDetection: { telephone: false, email: false, address: false },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
     },
-    twitter: { card: "summary_large_image" },
+    // Set these in the hosting environment once the site is verified in each console.
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION,
+      other: process.env.BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION } : undefined,
+    },
   };
 }
 
@@ -68,18 +76,6 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = getDictionary(lang);
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "AccountingService",
-    name: site.name,
-    url: site.url,
-    telephone: site.phone,
-    email: site.email,
-    image: `${site.url}/assets/logo.jpg`,
-    areaServed: { "@type": "Country", name: "Saudi Arabia" },
-    priceRange: "SAR 1,000 - 5,000 / month",
-  };
 
   return (
     <html
@@ -103,7 +99,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <Footer lang={lang} t={t.common} />
         <WhatsAppFloat label={t.common.cta.whatsapp} />
         <MotionRoot />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <JsonLd data={organizationGraph(lang)} />
       </body>
     </html>
   );

@@ -8,17 +8,15 @@ import { IndustryExplorer } from "@/components/advisory/IndustryExplorer";
 import { SampleGallery } from "@/components/advisory/SampleGallery";
 import { BridgeBanner } from "@/components/sections/BridgeBanner";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { Faq } from "@/components/sections/Faq";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbs, faqPage, graph, pageMetadata, advisoryService } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/advisory">): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const { meta } = getDictionary(lang).advisory;
-  return {
-    title: meta.title,
-    description: meta.description,
-    alternates: { canonical: `/${lang}/advisory`, languages: { en: "/en/advisory", ar: "/ar/advisory" } },
-    openGraph: { title: meta.title, description: meta.description, url: `/${lang}/advisory` },
-  };
+  return pageMetadata(lang, "/advisory", meta.title, meta.description);
 }
 
 export default async function AdvisoryPage({ params }: PageProps<"/[lang]/advisory">) {
@@ -41,6 +39,7 @@ export default async function AdvisoryPage({ params }: PageProps<"/[lang]/adviso
       <AdvisoryServices t={t.services} />
       <IndustryExplorer lang={lang} t={t.industries} cta={common.cta.assessment} />
       <SampleGallery t={t.sample} />
+      <Faq label={t.faq.label} title={t.faq.title} items={t.faq.items} tone="teal" />
       <BridgeBanner
         index={common.pathIndex.accounting}
         label={t.foundation.label}
@@ -51,6 +50,9 @@ export default async function AdvisoryPage({ params }: PageProps<"/[lang]/adviso
         tone="gold"
       />
       <CtaBand lang={lang} common={common} title={t.cta.title} lead={t.cta.lead} path="advisory" />
+      <JsonLd
+        data={graph(advisoryService(lang), breadcrumbs(lang, [{ name: t.hero.label, path: "/advisory" }]), faqPage(lang, "/advisory", t.faq.items))}
+      />
     </>
   );
 }

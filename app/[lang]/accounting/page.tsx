@@ -11,17 +11,15 @@ import { ServiceList } from "@/components/sections/ServiceList";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { BridgeBanner } from "@/components/sections/BridgeBanner";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { Faq } from "@/components/sections/Faq";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbs, faqPage, graph, pageMetadata, accountingService } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/accounting">): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const { meta } = getDictionary(lang).accounting;
-  return {
-    title: meta.title,
-    description: meta.description,
-    alternates: { canonical: `/${lang}/accounting`, languages: { en: "/en/accounting", ar: "/ar/accounting" } },
-    openGraph: { title: meta.title, description: meta.description, url: `/${lang}/accounting` },
-  };
+  return pageMetadata(lang, "/accounting", meta.title, meta.description);
 }
 
 export default async function AccountingPage({ params }: PageProps<"/[lang]/accounting">) {
@@ -53,6 +51,7 @@ export default async function AccountingPage({ params }: PageProps<"/[lang]/acco
       <PackagesSelector lang={lang} t={t.packages} />
       <ProcessTimeline t={home.process} />
 
+      <Faq label={t.faq.label} title={t.faq.title} items={t.faq.items} tone="gold" />
       <BridgeBanner
         index={common.pathIndex.advisory}
         title={t.advisoryBridge.title}
@@ -63,6 +62,9 @@ export default async function AccountingPage({ params }: PageProps<"/[lang]/acco
       />
 
       <CtaBand lang={lang} common={common} title={t.cta.title} lead={t.cta.lead} path="accounting" />
+      <JsonLd
+        data={graph(accountingService(lang), breadcrumbs(lang, [{ name: t.hero.label, path: "/accounting" }]), faqPage(lang, "/accounting", t.faq.items))}
+      />
     </>
   );
 }

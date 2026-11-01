@@ -145,6 +145,32 @@ export const en = {
       lead: "Profitability by branch, a detailed P&L and recommended actions, in one clear pack.",
       cta: "View sample report",
     },
+    faq: {
+      label: "FAQ",
+      title: "Questions businesses ask us",
+      items: [
+        {
+          q: "What does Numbers First do?",
+          a: "Numbers First offers two financial services for small and medium businesses in Saudi Arabia: Accounting & Bookkeeping (monthly bookkeeping, VAT and Zakat returns, ZATCA e-invoicing, payroll and WPS) and Financial Planning & Advisory (budgeting, cash-flow forecasting, pricing, margin, lease and expansion decisions).",
+        },
+        {
+          q: "Who do you work with?",
+          a: "Small and medium businesses across Saudi Arabia, including healthcare, retail and e-commerce, hospitality, food and beverage, sports and fitness, consulting, and design and workspace businesses.",
+        },
+        {
+          q: "How much do your services cost?",
+          a: "Bookkeeping packages are a fixed monthly fee from SAR 1,000 to SAR 5,000, set by the value of your balance sheet. Fees exclude 15% VAT. Backlog clean-up and system setup are quoted as a one-off fee.",
+        },
+        {
+          q: "How do I get started?",
+          a: "Book a free assessment. We review your books and compliance position, send a written fixed-fee proposal, complete onboarding in 14 days, then close your books and send reports every month.",
+        },
+        {
+          q: "How quickly do you reply?",
+          a: "We reply within one working day. You can reach us on WhatsApp or by phone at +966 59 856 5877, or by email at info@numberfirst.pro.",
+        },
+      ],
+    },
     cta: {
       title: "Start with a look at your books",
       lead: "Tell us about your business. We'll review your records and compliance and come back with a fixed-fee proposal.",
@@ -153,7 +179,7 @@ export const en = {
 
   accounting: {
     meta: {
-      title: "Accounting & Bookkeeping | Numbers First",
+      title: "Bookkeeping, VAT & Zakat Services in Saudi Arabia | Numbers First",
       description:
         "Monthly bookkeeping, VAT and Zakat returns, ZATCA e-invoicing on Fatoora, payroll and WPS for Saudi SMEs. Fixed monthly fees from SAR 1,000.",
     },
@@ -259,6 +285,36 @@ export const en = {
       body: "Once your books are accurate, the same numbers can drive budgets, forecasts and decisions.",
       cta: "Explore Financial Planning & Advisory",
     },
+    faq: {
+      label: "FAQ",
+      title: "Accounting & bookkeeping questions",
+      items: [
+        {
+          q: "How much does monthly bookkeeping cost in Saudi Arabia with Numbers First?",
+          a: "A fixed monthly fee set by your balance sheet: Starter SAR 1,000 (under SAR 500K, or under 100 sales transactions), Standard SAR 2,000 (SAR 500K to 1M), Growth SAR 3,500 (SAR 1M to 3M) and Premium SAR 5,000 (above SAR 3M). Fees exclude 15% VAT.",
+        },
+        {
+          q: "Do you handle ZATCA e-invoicing on the Fatoora platform?",
+          a: "Yes. We connect your invoicing to ZATCA's Fatoora platform, and ZATCA e-invoicing support is included from the Growth package. Your free assessment includes an e-invoicing readiness check.",
+        },
+        {
+          q: "Do you prepare and file VAT and Zakat returns?",
+          a: "Yes. VAT and Zakat returns are prepared and filed on time. Every package includes monthly bookkeeping, and the Starter package includes a quarterly VAT return and annual Zakat filing.",
+        },
+        {
+          q: "Can you run payroll and WPS for my staff?",
+          a: "Yes. We process salaries and handle Mudad and WPS compliance, including end-of-service calculations. Standard covers payroll for up to 10 staff and Growth for up to 25.",
+        },
+        {
+          q: "How long does onboarding take?",
+          a: "14 days. We set up systems, records and access, and check your opening balances before the first monthly close.",
+        },
+        {
+          q: "Can you fix books that are behind?",
+          a: "Yes. Backlog clean-up and system setup are quoted as a one-off fee, separate from the monthly package.",
+        },
+      ],
+    },
     cta: {
       title: "Get your books and compliance in order",
       lead: "Start with a free review of your bookkeeping, VAT position and ZATCA e-invoicing readiness.",
@@ -267,7 +323,7 @@ export const en = {
 
   advisory: {
     meta: {
-      title: "Financial Planning & Advisory | Numbers First",
+      title: "Financial Planning & Advisory for Saudi SMEs | Numbers First",
       description:
         "Budgets, cash-flow forecasts, pricing, margin, lease and expansion advice for Saudi businesses in sports and fitness, real estate, F&B, hospitality, consultancy and creative industries.",
     },
@@ -389,6 +445,32 @@ export const en = {
       body: "Cash-flow forecasting, a CFO-lite review and a board pack are part of our Premium package, on top of monthly bookkeeping. Tell us what you need in your free assessment and the scope goes into your written proposal.",
       cta: "See Accounting & Bookkeeping packages",
     },
+    faq: {
+      label: "FAQ",
+      title: "Financial planning & advisory questions",
+      items: [
+        {
+          q: "What does your financial advisory service cover?",
+          a: "Budgeting and cash-flow forecasting reviewed against actuals every month, pricing and margin decisions, lease and expansion decisions, profitability by branch, a CFO-lite review with recommended actions, and audit liaison with a board pack.",
+        },
+        {
+          q: "Which industries do you advise?",
+          a: "We focus on sports and fitness, real estate, food and beverage (F&B), hospitality, consultancy, and design and creative businesses in Saudi Arabia.",
+        },
+        {
+          q: "What will I receive each month?",
+          a: "A monthly financial outlook pack: profitability by branch (revenue, EBITDA and net profit by month), a detailed P&L with every cost line and margin, and a conclusion with recommended actions.",
+        },
+        {
+          q: "How is financial advisory priced?",
+          a: "Cash-flow forecasting, a CFO-lite review, audit liaison and a board pack are part of the Premium package at SAR 5,000 a month, alongside monthly bookkeeping. Otherwise, tell us what you need in the free assessment and the scope goes into your written proposal.",
+        },
+        {
+          q: "Do I need accurate books before advisory?",
+          a: "Advice is only as good as the numbers under it, so our advisory work builds on accurate monthly books. If your books need work, we can take on the bookkeeping too.",
+        },
+      ],
+    },
     cta: {
       title: "Bring us the decision you're facing",
       lead: "Pricing, a new branch, a lease or next year's budget. Tell us what's on the table and we'll show you how we'd approach it.",
@@ -397,7 +479,7 @@ export const en = {
 
   enquire: {
     meta: {
-      title: "Book a free assessment | Numbers First",
+      title: "Book a Free Bookkeeping Assessment | Numbers First",
       description:
         "Tell us about your business. We'll review your records and compliance and come back with a fixed-fee proposal.",
     },
